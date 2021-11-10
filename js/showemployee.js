@@ -22,7 +22,7 @@ function showTable() {
       var newRow = table.insertRow(table.length);
       newRow.setAttribute("index", index);
       var cell1 = newRow.insertCell(0);
-      cell1.innerHTML = `<input type="checkbox" onclick="check(${index})"  name="ChildCheckBox" id="ChildCheckBox"  value="${index}"/>`;
+      cell1.innerHTML = `<input type="checkbox"   name="ChildCheckBox" id="ChildCheckBox"  value="${index}"/>`;
        var cell2 = newRow.insertCell(1);
       cell2.innerHTML = employee.name;
       var cell3 = newRow.insertCell(2);
@@ -51,12 +51,32 @@ function showTable() {
 function editEmployee(index){
   location.href = "updateemployee.html?idx="+index;
 }
+function check(){
+  console.log(" hi")
+}
 
 function show(index) {
   location.href="viewemployee.html?idx="+index;
 }
 
-function check(index){
+function checkAll(ele){
+  
+    var checkboxes = document.getElementsByTagName('input');
+    if (ele.checked) {
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].type == 'checkbox') {
+                checkboxes[i].checked = true;
+            }
+        }
+    } else {
+        for (var i = 0; i < checkboxes.length; i++) {
+            console.log(i)
+            if (checkboxes[i].type == 'checkbox') {
+                checkboxes[i].checked = false;
+            }
+        }
+    
+}
   // var checkBox = document.getElementById("ChildCheckBox");
   // console.log(checkBox.checked);
   
@@ -123,47 +143,82 @@ var grid = document.getElementById("formList");
  
        
         var arr =[]
+        let datas= localStorage.getItem('employees');
+       const employees = JSON.parse(datas);
         for (var i = 0; i < checkBoxes.length; i++) {
             if (checkBoxes[i].checked) {
                 var row = checkBoxes[i].parentNode.parentNode;
                 arr.push(row.cells[8].innerHTML)
             }
         }
-    let datas= localStorage.getItem('employees');
-    const employees = JSON.parse(datas);
-    for (var i=0;i<=arr.length;i++){
-      employees.splice(i,1)
-    }
+        console.log(arr.length)
+        // for(var i=0;i<=arr.length;i++){
+        //   arr.splice(i,1)
+        // }
+        // console.log(arr)
+        for (var i = arr.length - 1; i >= 0; --i) {
+          
+          
+              employees.splice(i,1);
+              localStorage.setItem('employees',JSON.stringify(employees))
+          
+      }
+      location.href = "showemployee.html";
+       
+        console.log(arr)
+        // try {
+        //   var table = document.getElementById("formList");
+        //   var rowCount = table.rows.length;
   
-    localStorage.setItem('employees',JSON.stringify(employees))
-    location.href = "showemployee.html";
+        //   for(var i=1; i<rowCount; i++) {
+        //       var row = table.rows[i];
+        //       console.log(row)
+        //       var chkbox = row.cells[0].childNodes[0];
+        //       if(null != chkbox && true == chkbox.checked) {
+        //           table.deleteRow(i);
+        //           rowCount--;
+        //           i--;
+        //       }
+        //   }
+        //   }catch(e) {
+        //       alert(e);
+        //   }
+    // let datas= localStorage.getItem('employees');
+    // const employees = JSON.parse(datas);
+    // for (var i=0;i<=arr.length;i++){
+    //   employees.splice(i,1)
+    //   localStorage.setItem('employees',JSON.stringify(employees))
+    // }
+  
+    
+    // location.href = "showemployee.html";
         
        
         
 }
 
-function checkAll(myCheckBox) {
-  var checkboxes = document.querySelectorAll("input[type='checkbox']");
-  console.log("checked");
-  if (myCheckBox.checked == true) {
-    checkboxes.forEach(function (checkboxes) {
-      checkboxes.checked = true;
-      console.log("iam 1")
-    });
-  } else {
-    checkboxes.forEach(function (checkboxes) {
-      checkboxes.checked = false;
-    });
-  }
-}
+// function checkAll(myCheckBox) {
+//   var checkboxes = document.querySelectorAll("input[type='checkbox']");
+//   console.log("checked");
+//   if (myCheckBox.checked == true) {
+//     checkboxes.forEach(function (checkboxes) {
+//       checkboxes.checked = true;
+//       console.log("iam 1")
+//     });
+//   } else {
+//     checkboxes.forEach(function (checkboxes) {
+//       checkboxes.checked = false;
+//     });
+//   }
+// }
 
-function checkone(childCheckBox){
-  var ddl = document.getElementById("list");
-  ddl.disabled = childCheckBox ? false : true;
-  if(!ddl.disabled){
-    ddl.focus();
-  }
-}
+// function checkone(childCheckBox){
+//   var ddl = document.getElementById("list");
+//   ddl.disabled = childCheckBox ? false : true;
+//   if(!ddl.disabled){
+//     ddl.focus();
+//   }
+// }
 
 
 
